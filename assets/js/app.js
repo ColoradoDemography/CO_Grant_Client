@@ -11,11 +11,12 @@ $(document).ready(function() {
 
 
     $('#datetimepicker6').datetimepicker({
-        format: 'YYYY-MM-DD'
+        format: 'YYYY-MM-DD',
+      defaultDate: "2010-01-01"
     });
     $('#datetimepicker7').datetimepicker({
         format: 'YYYY-MM-DD',
-        useCurrent: false //Important! See issue #1075
+        defaultDate: "2016-01-01"
     });
     $("#datetimepicker6").on("dp.change", function(e) {
         $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
@@ -39,74 +40,70 @@ $(document).ready(function() {
 
 
 
-function send(type, api) {
-    var table, schema, res, subsplit, sumlev, geonum;
+function send(type) {
+  
+    var programs, counties, lgids, startdate, enddate;
 
+  
+  //programs
+        var aprograms = [];
+        $('#pfilter option:selected').each(function(index, brand){
+            aprograms.push([$(this).val()]);
+        });
+        programs=aprograms.join(",")
+  
+  //counties
+        var acounties = [];
+        $('#cfilter option:selected').each(function(index, brand){
+            acounties.push([$(this).val()]);
+        });
+        counties=acounties.join(",")
+  
+  //lgids
+        var algids = [];
+        $('#lfilter option:selected').each(function(index, brand){
+            algids.push([$(this).val()]);
+        });
+        lgids=algids.join(",")
 
-    //sumlev
-    var geodescription = $('#sumlev').val();
-    if (geodescription == 'state') {
-        sumlev = '40';
-    }
-    if (geodescription == 'county') {
-        sumlev = '50';
-    }
-    if (geodescription == 'place') {
-        sumlev = '160';
-    }
-    if (geodescription == 'tract') {
-        sumlev = '140';
-    }
-    if (geodescription == 'bg') {
-        sumlev = '150';
-    }
-
-    //selected state
-    var state = '&state=' + $('#statesel').val();
-    if (geodescription == 'state') {
-        state = '';
-    } //choosing 1 state is disabled
-
-    //dataset
-    var dataset = $('#dataset').val();
-
-    //selected table text
-    var tablestring = $('select[id=tables]').val();
-
-    //check for moe checkbox
-    var moe = '';
-    if ($('#checkmoe').is(':checked')) {
-        moe = '&moe=yes';
-    }
-
-    if ($input.val() == '') {
-        geonum = '';
-    } else {
-        if (selectgeonum !== '') {
-            geonum = '&geonum=' + selectgeonum
+  
+        function parseDate(datetoparse){
+          
+          var parsedDate = datetoparse.split("-");
+          console.log(parsedDate);
+          var year=parsedDate[0];
+          var month=parsedDate[1];
+          var day=parsedDate[2];
+          
+          function text_mo(totext){
+            if(totext='01'){return 'JAN';}
+            if(totext='02'){return 'FEB';}
+            if(totext='03'){return 'MAR';}
+            if(totext='04'){return 'APR';}
+            if(totext='05'){return 'MAY';}
+            if(totext='06'){return 'JUN';}
+            if(totext='07'){return 'JUL';}
+            if(totext='08'){return 'AUG';}
+            if(totext='09'){return 'SEP';}
+            if(totext='10'){return 'OCT';}
+            if(totext='11'){return 'NOV';}
+            if(totext='12'){return 'DEC';}
+          }
+          
+          
+          return day + "-" + text_mo(month) + "-" + year;
         }
-    } 
+        
+  //startdate
+  startdate = parseDate($("#datetimepicker6").data('date'));
+  
+  //enddate
+  enddate = parseDate($("#datetimepicker7").data('date'));
 
-    //parse option text to get schema and table information
-    if (dataset == 'c1980' || dataset == 'c1990' || dataset == 'c2000') {
-
-        res = tablestring.split(" - ");
-        schema = res[0];
-
-        subsplit = res[1].split(":");
-        table = subsplit[0];
-
-    } else {
-
-        schema = 'data';
-
-        res = tablestring.split(":");
-        table = res[0];
-
-    }
-
+  
     //send to demog.php
-    console.log(window.location.href = api + '.php?limit=99999&db=' + dataset + '&schema=' + schema + '&table=' + table + '&sumlev=' + sumlev + '&type=' + type + moe + state + geonum);
+    console.log('http://fierce-horsepower-145829.nitrousapp.com:4000/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids);
 
-
+window.location.href = 'http://fierce-horsepower-145829.nitrousapp.com:4000/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids;
+  
 }
