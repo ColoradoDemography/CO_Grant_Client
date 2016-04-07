@@ -102,8 +102,8 @@ function send(type) {
 
   
     //send to demog.php
-    console.log('http://fierce-horsepower-145829.nitrousapp.com:4000/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids);
+    console.log('http://red-meteor-147235.nitrousapp.com:4000/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids);
 
-window.location.href = 'http://fierce-horsepower-145829.nitrousapp.com:4000/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids;
+window.location.href = 'http://red-meteor-147235.nitrousapp.com:4000/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids;
   
 }
