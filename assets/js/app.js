@@ -1,11 +1,6 @@
 var selectgeonum = '';
 var $input;
 
-var placedata;
-
-$.getJSON("../CO_FS_Data_PHP/geopts.json", function(data) {
-    placedata = data;
-});
 
 $(document).ready(function() {
 
@@ -101,9 +96,7 @@ function send(type) {
   enddate = parseDate($("#datetimepicker7").data('date'));
 
   
-    //send to demog.php
-    //console.log('http://red-meteor-147235.nitrousapp.com:4000/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids);
 
-window.location.href = 'http://104.197.26.248:4004/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids;
+window.location.href = 'https://gis.dola.colorado.gov/grants/gather?' + 'start=' + startdate + '&end=' + enddate + '&program=' + programs + '&county=' + counties + '&lgid=' + lgids;
   
 }
